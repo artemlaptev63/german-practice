@@ -1,0 +1,77 @@
+<!DOCTYPE html><html><head><meta charset=utf-8><title>German Practice</title><script src=https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js></script><link href=/static/css/app.3b64a6ba68a5d785fdbec5411a9d121e.css rel=stylesheet></head><body><div id=app></div><script>$(document).ready(function() {
+        console.log('jquery works!');
+
+        // by default, a submit button will reload the page, but in this
+        // case, prevent the default submit event and perform our own logic
+        $('#exercise-1 form').submit(function(event) {
+          event.preventDefault(); // на первом клике не срабатывает функция
+          console.log('submitting');
+          formCheck();
+          showHideButtons();
+
+          $('#try-again').click(function() {
+            startAgain();
+          })
+          $('#show-answers').click(function() {
+            showAnswers();
+          })
+        })
+      })
+
+      function showAnswers() {
+        var fields = $('.question').each(function() {
+          field = $(this);
+          var answerField = field.find('input');
+          var correctAnswer = answerField.data('correct-answer');
+          answerField.val(correctAnswer);
+          answerField.removeClass().addClass('correctAns');
+        });
+      }
+
+      function startAgain() {
+        $('.submit').show();
+        $('.click-visible').hide();
+        var answerField = $('.question input');
+        answerField.removeClass().val('');
+      }
+
+      function showHideButtons() {
+        $('.submit').hide();
+        $('.click-visible').show();
+      }
+
+        // scan the form for correct/incorrect answers and show the proper
+        // results to the user
+      function formCheck() {
+        console.log('checking form');
+
+        // select all form questions
+        var fields = $('.question').each(function() {
+          // gather correct and chosen answers
+          var field = $(this);
+          var answerField = field.find('input');
+          var correctAnswer = answerField.data('correct-answer');
+          var chosenAnswer = answerField.val();
+
+
+          // determine if answer is correct
+          var isCorrect = false;
+          if (correctAnswer == chosenAnswer) {
+              isCorrect = true;
+          }
+
+          // clear existing class in case user re-submits the form
+          answerField.removeClass();
+
+          // take action based on answer
+          //
+          // style the field based on correct/incorrect
+          if (isCorrect == true) {
+            answerField.removeClass().addClass('correctAns');
+          } else if (answerField.val() == '') {
+            answerField.removeClass().addClass('emptyAns');
+          } else {
+            answerField.removeClass().addClass('incorrectAns');
+          }
+        });
+      }</script><script type=text/javascript src=/static/js/manifest.90ef77d9d3fe57b52482.js></script><script type=text/javascript src=/static/js/vendor.fb8f0bec224e0e80b1fc.js></script><script type=text/javascript src=/static/js/app.1702982e7cad89cc1108.js></script></body></html>
